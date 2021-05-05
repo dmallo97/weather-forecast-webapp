@@ -7,12 +7,18 @@ import styled from 'styled-components';
 const WeatherApp = () => {
   const [city, setCity] = useState('London');
   const [currentTime, setCurrentTime] = useState('');
-  const [weather, setWeather] = useState({
+  const [currentWeather, setCurrentWeather] = useState({
     description: '',
     temperature: '',
     humidity: '',
     windSpeed: '',
   });
+  const [forecastedWeather, setForecastedWeather] = useState([{
+    date: '',
+    precipitationProbability: '',
+    humidity: '',
+    description: ''
+  }])
 
 
   return(
@@ -20,6 +26,7 @@ const WeatherApp = () => {
       <div>Search bar to be implemented</div>
       <Container>
         <CurrentWeather />
+        <Forecast />
       </Container>
     </>
   );
