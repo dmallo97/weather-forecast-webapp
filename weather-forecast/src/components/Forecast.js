@@ -1,12 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import TemperatureChart from './TemperatureChart';
+import FourDayForecast from './FourDayForecast';
 
 const Forecast = ({ city }) => {
 
     return(
         <ForecastContainer>
-            <TemperatureChart />
-            <FourDayForecast />
+            <TemperatureChartContainer>
+            </TemperatureChartContainer>
+            <FourDayForecastContainer>
+                <FourDayForecast />
+            </FourDayForecastContainer>
         </ForecastContainer>
     );
 }
@@ -19,16 +24,17 @@ const ForecastContainer = styled.div`
     background-color: orange;
 `;
 
-const TemperatureChart = styled.div`
+const TemperatureChartContainer = styled.div`
     width: 100%; /* como se puede mejorar esto */
     height: 50%;
     background-color: yellow;
 `;
 
-const FourDayForecast = styled.div`
+const FourDayForecastContainer = styled.div`
     width: 100%; /* como se puede mejorar esto */
     height: 50%;
     background-color: white;
+    padding: 0px;
 `;
 
 export default Forecast;

@@ -23,7 +23,8 @@ const WeatherApp = () => {
 
   return(
     <>
-      <div>Search bar to be implemented</div>
+      <label>Your city</label>
+      <input type='text' placeholder='London'></input>
       <Container>
         <CurrentWeather />
         <Forecast />
