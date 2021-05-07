@@ -17,6 +17,7 @@ const Container = styled.div`
     justify-content: space-evenly;
     align-items: center;
     height: 100%;
+    padding: 15px;
 `;
 
 export default FourDayForecast;

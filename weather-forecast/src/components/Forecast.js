@@ -8,6 +8,7 @@ const Forecast = ({ city }) => {
     return(
         <ForecastContainer>
             <TemperatureChartContainer>
+                <TemperatureChart/>
             </TemperatureChartContainer>
             <FourDayForecastContainer>
                 <FourDayForecast />
@@ -20,20 +21,17 @@ const ForecastContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 800px; /* como se puede mejorar esto */
-    height: 100%;
-    background-color: orange;
+    /*background-color: orange;*/
 `;
 
 const TemperatureChartContainer = styled.div`
     width: 100%; /* como se puede mejorar esto */
-    height: 50%;
-    background-color: yellow;
+    /*background-color: yellow;*/
 `;
 
 const FourDayForecastContainer = styled.div`
     width: 100%; /* como se puede mejorar esto */
-    height: 50%;
-    background-color: white;
+    /*background-color: white;*/
     padding: 0px;
 `;
 

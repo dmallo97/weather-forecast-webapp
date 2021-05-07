@@ -4,14 +4,14 @@ import { WiCloudy, WiFahrenheit } from 'weather-icons-react';
 
 const CurrentWeather = ({ currentWeather }) => (
     <Container>
-        <CurrentTimeLabel>cumbia 420 pa lo negro</CurrentTimeLabel>
+        <CurrentTimeLabel>Monday 5 21:30 ...</CurrentTimeLabel>
         <PrimaryInformationContainer>
             <WeatherIconBox>
                 <WiCloudy size={290} color='#000' />
             </WeatherIconBox>
             <TemperatureInformationContainer>
                 <TemperatureLabel>72</TemperatureLabel>
-                <WiFahrenheit size={140} color='#000' />
+                <WiFahrenheit size={80} color='#000' />
             </TemperatureInformationContainer>
         </PrimaryInformationContainer>
         <DescriptionLabel>Cloudy</DescriptionLabel>
@@ -33,13 +33,13 @@ const Container = styled.div`
     flex-direction: column;
     height: 400px;
     width: 600px;
-    background-color: grey;
+    /*background-color: grey;*/
 `;
 
 const CurrentTimeLabel = styled.label`
     color: grey;
     text-align: center;
-    background-color: white;
+    /*background-color: white;*/
 `;
 
 const PrimaryInformationContainer = styled.div`
@@ -56,7 +56,7 @@ const SecondaryInformationContainer = styled.div`
 `;
 
 const WeatherIconBox = styled.div`
-    background-color: red;
+    /*background-color: red;*/
     text-align: center;
     justify-content: center; /* no funca */
     align-items: center; /* idem */
@@ -70,23 +70,29 @@ const TemperatureInformationContainer = styled.div`
     justify-content: center;
     align-items: center;
     width: 50%;
-    background-color: green;
+    /*background-color: green;*/
     padding-right: -100px;
+    position: relative;
+    svg{
+        position: absolute;
+        top: 5em;
+        right: 1em;
+    }
 `;
 
 const DescriptionLabel = styled.strong`
     color: black;
     text-align: center;
     height: 10%;
-    background-color: yellow;
+    /*background-color: yellow;*/
     justify-content: center;
     font-size: 25px;
 `;
 
 const TemperatureLabel = styled.label`
-    background-color: green;
+    /*background-color: green;*/
     font-size: 130px;
-    margin-right: -30px; /* el problema es que queda corrido igual */
+    line-height: 1em;
 `;
 
 const HumidityInformationBox = styled.div`
@@ -106,7 +112,7 @@ const WindInformationBox = styled.div`
     flex-direction: column;
     height: 100%;
     width: 50%;
-    background-color: blue;
+    /*background-color: blue;*/
     text-align: center;
     justify-content: center; /* este si */
 `;

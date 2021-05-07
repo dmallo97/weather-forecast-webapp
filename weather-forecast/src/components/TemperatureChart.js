@@ -21,33 +21,47 @@ const data = [
 ];
 
 const dataSample = {
-    labels: ['January', 'February', 'March',
-           'April', 'May'],
+    labels: ['January', 'February', 'March', 'April', 'May'],
     datasets: [
         {
-        label: 'Rainfall',
-        fill: false,
-        lineTension: 0.5,
-        backgroundColor: 'rgba(75,192,192,1)',
-        borderColor: 'rgba(0,0,0,1)',
-        borderWidth: 2,
-        data: [65, 59, 80, 81, 56]
+            pointStyle: 'circle',
+            pointRadius: 0.05,
+            pointHoverRadius: 6,
+            hitRadius: 3,
+            fill: true,
+            tension: 0.3,
+            backgroundColor: '#EEF4FE',
+            borderColor: '#5596F6',
+            borderWidth: 3,
+            data: [65, 59, 80, 81, 56],
         }
     ]
 }
 
 const TemperatureChart = () => (
     <Line
+        height={85}
+        // redraw={true}
         data={dataSample}
         options={{
-            title:{
-                display:true,
-                text:'Average Rainfall per month',
-                fontSize:20
-            },
-            legend:{
-                display:false,
-                position:'right'
+            scales: {
+                ticks:{
+                    display: false,
+                    maxTicksLimit: 0
+                },
+                title:{
+                    display: false
+                },
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        display: false
+                    }
+                }]
             }
         }}
     />

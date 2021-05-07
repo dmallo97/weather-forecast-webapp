@@ -12,7 +12,7 @@ const ForecastedDayCard = ({ date, weatherDescription, humidity}) => (
 );
 
 const Container = styled.div`
-    background-color: red;
+    background-color: #5596F6;
     color: white;
     border-radius: 7px;
     display: flex;
