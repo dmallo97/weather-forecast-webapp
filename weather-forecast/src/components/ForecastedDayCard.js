@@ -1,19 +1,21 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { WiCloudy } from 'weather-icons-react';
 
-const ForecastedDayCard = ({ date, weatherDescription, humidity}) => (
-    <Container>
-        <strong>Today</strong>
+const ForecastedDayCard = ({ date, weatherDescription, humidity, selected, index, setSelectedDay}) => (
+    <Container active={selected} onClick={() => setSelectedDay(index)}>
+        <strong>{date}</strong>
         <WiCloudy size={50} color={'#fff'} />
         <label>Humidity</label>
-        <label>30%</label>
+        <label>{humidity}%</label>
     </Container>
 );
 
 const Container = styled.div`
-    background-color: #5596F6;
-    color: white;
+    ${props => props.active && css`
+        background-color: #5596F6;
+        color: white;`
+    }
     border-radius: 7px;
     display: flex;
     flex-direction: column;

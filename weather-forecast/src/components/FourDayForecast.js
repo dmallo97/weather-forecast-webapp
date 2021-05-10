@@ -2,14 +2,19 @@ import React from 'react';
 import ForecastedDayCard from './ForecastedDayCard';
 import styled from 'styled-components';
 
-const FourDayForecast = () => (
-    <Container>
-        <ForecastedDayCard />
-        <ForecastedDayCard />
-        <ForecastedDayCard />
-        <ForecastedDayCard />
-    </Container>
-);
+const FourDayForecast = ({ forecast, setSelectedDay, selectedDay}) => {
+    const days = new Array(4).fill(false);
+    days[selectedDay] = true;
+
+    return(
+        <Container>
+            {forecast.map((forecastedDay, i) => (
+                <ForecastedDayCard date={forecastedDay.date} weatherDescription={forecastedDay.description} humidity={forecastedDay.humidity} 
+                    selected={days[i]} index={i} setSelectedDay={setSelectedDay} />
+            ))}
+        </Container>
+    );
+};
 
 const Container = styled.div`
     display: flex;
