@@ -7,22 +7,23 @@ const CurrentWeather = ({ currentWeather }) => (
         <CurrentTimeLabel>Monday 5 21:30 ...</CurrentTimeLabel>
         <PrimaryInformationContainer>
             <WeatherIconBox>
-                <WiCloudy size={290} color='#000' />
+                {/* <WiCloudy size={290} color='#000' /> */}
+                <img src={`http://openweathermap.org/img/w/${currentWeather.icon}.png`} alt={currentWeather.description}/>
             </WeatherIconBox>
             <TemperatureInformationContainer>
-                <TemperatureLabel>72</TemperatureLabel>
+                <TemperatureLabel>{Math.ceil(currentWeather.temperature)}</TemperatureLabel>
                 <WiFahrenheit size={80} color='#000' />
             </TemperatureInformationContainer>
         </PrimaryInformationContainer>
-        <DescriptionLabel>Cloudy</DescriptionLabel>
+        <DescriptionLabel>{currentWeather.description}</DescriptionLabel>
         <SecondaryInformationContainer>
             <HumidityInformationBox>
                 <label>Humidity</label>
-                <strong>45%</strong>
+                <strong>{currentWeather.humidity} %</strong>
             </HumidityInformationBox>
             <WindInformationBox>
                 <label>Wind speed</label>
-                <strong>19.2 km/j</strong>
+                <strong>{currentWeather.windSpeed} mph</strong>
             </WindInformationBox>
         </SecondaryInformationContainer>
     </Container>

@@ -1,17 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import TemperatureChart from './TemperatureChart';
 import FourDayForecast from './FourDayForecast';
 
-const Forecast = ({ city }) => {
+const Forecast = ({ forecastedDays, forecastedTemperatures }) => {
+    const [selectedDayIndex, setSelectedDayIndex] = useState(0);
 
     return(
         <ForecastContainer>
             <TemperatureChartContainer>
-                <TemperatureChart/>
+                <TemperatureChart forecast={forecastedTemperatures} selectedDayIndex={selectedDayIndex} />
             </TemperatureChartContainer>
             <FourDayForecastContainer>
-                <FourDayForecast />
+                <FourDayForecast forecast={forecastedDays} setSelectedDay={setSelectedDayIndex} selectedDay={selectedDayIndex} />
             </FourDayForecastContainer>
         </ForecastContainer>
     );
