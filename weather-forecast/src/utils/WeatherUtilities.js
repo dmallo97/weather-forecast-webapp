@@ -13,7 +13,6 @@ import {
 } from 'weather-icons-react';
 
 export default function renderWeatherIcon(weatherDescription, size, color) {
-  console.log(weatherDescription);
   let weatherIcon;
   switch (weatherDescription) {
     case 'clear sky':

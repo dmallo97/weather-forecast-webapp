@@ -46,3 +46,5 @@ export async function getForecastedDailyWeather(city = undefined, coords = undef
   }
   return response.data;
 }
+
+export default { getCurrentWeather, getForecastedTemperatures, getForecastedDailyWeather };

@@ -16,7 +16,6 @@ const ForecastedDayCard = ({
   if (date !== 'Today') {
     formattedDate = moment(date * 1000);
   }
-  console.log(weatherDescription);
   return (
     <Container active={selected} onClick={() => setSelectedDay(index)}>
       <strong>{date === 'Today' ? date : `${formattedDate.format('ddd')} ${formattedDate.toDate().getDate()}`}</strong>
