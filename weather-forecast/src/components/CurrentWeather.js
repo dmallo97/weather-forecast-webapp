@@ -20,7 +20,7 @@ const CurrentWeather = ({ currentWeather }) => {
           />} */}
         </WeatherIconBox>
         <TemperatureInformationContainer>
-          <TemperatureLabel>
+          <TemperatureLabel className="emphasized-text">
             {Math.ceil(currentWeather.temperature)}
           </TemperatureLabel>
           <WiFahrenheit size={80} color="#000" />
@@ -30,14 +30,14 @@ const CurrentWeather = ({ currentWeather }) => {
       <SecondaryInformationContainer>
         <HumidityInformationBox>
           Humidity
-          <strong>
+          <strong className="emphasized-text">
             {currentWeather.humidity}
             %
           </strong>
         </HumidityInformationBox>
         <WindInformationBox>
           Wind speed
-          <strong>
+          <strong className="emphasized-text">
             {currentWeather.windSpeed}
             mph
           </strong>
