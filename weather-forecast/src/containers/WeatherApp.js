@@ -1,9 +1,13 @@
-import '../styles/WeatherApp.css'; 
+import '../styles/WeatherApp.css';
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import CurrentWeather from '../components/CurrentWeather';
 import Forecast from '../components/Forecast';
-import styled from 'styled-components';
-import { getCurrentWeather, getForecastedTemperatures, getForecastedDailyWeather } from '../services/WeatherService';
+import {
+  getCurrentWeather,
+  getForecastedTemperatures,
+  getForecastedDailyWeather,
+} from '../services/WeatherService';
 
 const WeatherApp = () => {
   const [city, setCity] = useState('London');
@@ -14,96 +18,93 @@ const WeatherApp = () => {
     temperature: '-',
     humidity: '-',
     windSpeed: '-',
-    icon: '-'
+    icon: '-',
   });
-  const [forecastedDays, setForecastedDays] = useState(
-    new Array(4).fill(null).map(() => ({
-      date: '-',
-      description: '-',
-      humidity: '-'
-    })
-  ));
-  const [forecastedTemperatures, setForecastedTemperatures] = useState(Array.from({length: 4}, () => Array.from({length: 8}, () => 0)));
+  const dailyForecastStructure = new Array(4).fill(null).map(() => ({
+    date: '-',
+    description: '-',
+    humidity: '-',
+  }));
+  const [forecastedDays, setForecastedDays] = useState(dailyForecastStructure);
+  const tempForecastStructure = Array.from({ length: 4 }, () => Array.from({ length: 8 }, () => 0));
+  const [forecastedTemperatures, setForecastedTemperatures] = useState(tempForecastStructure);
 
-  async function fetchCurrentWeather(coords = undefined){
-      let weatherData;
-      if(coords)
-      {
-        weatherData = await getCurrentWeather(undefined, coords);
-      } 
-      else
-      {
-        weatherData = await getCurrentWeather(city);
-      }
-      setCurrentWeather({
-        time: weatherData.dt,
-        temperature: weatherData.main.temp,
-        description: weatherData.weather[0].description,
-        icon: weatherData.weather[0].icon,
-        humidity: weatherData.main.humidity,
-        windSpeed: weatherData.wind.speed
-      });
+  async function fetchCurrentWeather(coords = undefined) {
+    let weatherData;
+    if (coords) {
+      weatherData = await getCurrentWeather(undefined, coords);
+    } else {
+      weatherData = await getCurrentWeather(city);
+    }
+    setCurrentWeather({
+      time: weatherData.dt,
+      temperature: weatherData.main.temp,
+      description: weatherData.weather[0].description,
+      icon: weatherData.weather[0].icon,
+      humidity: weatherData.main.humidity,
+      windSpeed: weatherData.wind.speed,
+    });
   }
 
-  async function fetchForecastedWeather(coords = undefined){
+  async function fetchForecastedWeather(coords = undefined) {
     let temperatureData;
     let dailyForecastData;
-    if(coords)
-    {
+    if (coords) {
       temperatureData = await getForecastedTemperatures(undefined, coords);
       dailyForecastData = await getForecastedDailyWeather(undefined, coords);
-    }
-    else
-    {
+    } else {
       temperatureData = await getForecastedTemperatures(city);
       dailyForecastData = await getForecastedDailyWeather(city);
     }
-    let forecastedTempsDataCopy = [...forecastedTemperatures];
+    const forecastedTempsDataCopy = [...forecastedTemperatures];
     let temperatureIncomingDataIndex = 0;
-    for(let i=0; i<forecastedTempsDataCopy.length; i++)
-    {
-      for(let j=0; j<forecastedTempsDataCopy[0].length; j++)
-      {
-        forecastedTempsDataCopy[i][j] = Math.ceil(temperatureData.list[temperatureIncomingDataIndex].main.temp);
-        temperatureIncomingDataIndex++;
+    for (let i = 0; i < forecastedTempsDataCopy.length; i += 1) {
+      for (let j = 0; j < forecastedTempsDataCopy[0].length; j += 1) {
+        const reading = temperatureData.list[temperatureIncomingDataIndex].main.temp;
+        forecastedTempsDataCopy[i][j] = Math.ceil(reading);
+        temperatureIncomingDataIndex += 1;
       }
     }
     setForecastedTemperatures(forecastedTempsDataCopy);
-    let forecastedDaysCopy = [...forecastedDays];
-    for(let i=0; i<forecastedDaysCopy.length; i++)
-    {
-      i === 0 ? forecastedDaysCopy[i].date = 'Today' : forecastedDaysCopy[i].date = dailyForecastData.daily[i].dt;
+    const forecastedDaysCopy = [...forecastedDays];
+    for (let i = 0; i < forecastedDaysCopy.length; i += 1) {
+      if (i === 0) {
+        forecastedDaysCopy[i].date = 'Today';
+      } else {
+        forecastedDaysCopy[i].date = dailyForecastData.daily[i].dt;
+      }
       forecastedDaysCopy[i].description = dailyForecastData.daily[i].weather[0].main;
       forecastedDaysCopy[i].humidity = dailyForecastData.daily[i].humidity;
     }
     setForecastedDays(forecastedDaysCopy);
   }
 
-  function fetchWeatherForCurrentLocation(position)
-  {
-    console.log(position.coords);
+  function fetchWeatherForCurrentLocation(position) {
     fetchCurrentWeather(position.coords);
     fetchForecastedWeather(position.coords);
   }
 
-  function errorWhileFetchingWeatherForCurrentLocation()
-  {
+  function errorWhileFetchingWeatherForCurrentLocation() {
     throw new Error('Unable to get your current location');
   }
 
-  function handleGetLocationBtnClick()
-  {
-    if(!navigator.geolocation)
-    {
+  function handleGetLocationBtnClick() {
+    if (!navigator.geolocation) {
       throw new Error('Your browser doesnt support this feature');
     }
-    navigator.geolocation.getCurrentPosition(fetchWeatherForCurrentLocation, errorWhileFetchingWeatherForCurrentLocation);
+    navigator.geolocation.getCurrentPosition(
+      fetchWeatherForCurrentLocation,
+      errorWhileFetchingWeatherForCurrentLocation,
+    );
   }
 
-  function handleClickSearch()
-  {
-    if(cityInput.length < 1) return;
+  function handleClickSearch() {
+    if (cityInput.length < 1) return;
     setCity(cityInput);
+  }
+
+  function handleCityInputChange(event) {
+    cityInput = event.target.value;
   }
 
   useEffect(() => {
@@ -111,21 +112,31 @@ const WeatherApp = () => {
     fetchForecastedWeather();
   }, [city]);
 
-  return(
+  return (
     <>
       <SearchBarContainer>
-        <label>Your city</label>
-        <SearchBarInput id='cityInput' type='text' placeholder='London' onChange={e => cityInput = e.target.value}></SearchBarInput>
+        Your city
+        <SearchBarInput
+          id="cityInput"
+          type="text"
+          placeholder="London"
+          onChange={(e) => handleCityInputChange(e)}
+        />
         <SearchButton onClick={handleClickSearch}>Search</SearchButton>
-        <SearchButton onClick={handleGetLocationBtnClick}>Get my location and search</SearchButton>
+        <SearchButton onClick={handleGetLocationBtnClick}>
+          Get my location and search
+        </SearchButton>
       </SearchBarContainer>
       <Container>
         <CurrentWeather currentWeather={currentWeather} />
-        <Forecast forecastedDays={forecastedDays} forecastedTemperatures={forecastedTemperatures} />
+        <Forecast
+          forecastedDays={forecastedDays}
+          forecastedTemperatures={forecastedTemperatures}
+        />
       </Container>
     </>
   );
-}
+};
 
 const Container = styled.div`
   margin: 20px;
@@ -146,7 +157,7 @@ const SearchBarInput = styled.input`
   margin-left: 25px;
   margin-right: 25px;
   width: 100px;
-  &:input:focus{
+  &:input:focus {
     outline: none;
     box-shadow: 0px 0px 2px red;
   }

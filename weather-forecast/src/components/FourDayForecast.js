@@ -1,19 +1,36 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import ForecastedDayCard from './ForecastedDayCard';
 import styled from 'styled-components';
+import ForecastedDayCard from './ForecastedDayCard';
 
-const FourDayForecast = ({ forecast, setSelectedDay, selectedDay}) => {
-    const days = new Array(4).fill(false);
-    days[selectedDay] = true;
+const FourDayForecast = ({ forecast, setSelectedDay, selectedDay }) => {
+  const days = new Array(4).fill(false);
+  days[selectedDay] = true;
 
-    return(
-        <Container>
-            {forecast.map((forecastedDay, i) => (
-                <ForecastedDayCard date={forecastedDay.date} weatherDescription={forecastedDay.description} humidity={forecastedDay.humidity} 
-                    selected={days[i]} index={i} setSelectedDay={setSelectedDay} />
-            ))}
-        </Container>
-    );
+  return (
+    <Container>
+      {forecast.map((forecastedDay, i) => (
+        <ForecastedDayCard
+          date={forecastedDay.date}
+          weatherDescription={forecastedDay.description}
+          humidity={forecastedDay.humidity}
+          selected={days[i]}
+          index={i}
+          setSelectedDay={setSelectedDay}
+        />
+      ))}
+    </Container>
+  );
+};
+
+FourDayForecast.propTypes = {
+  forecast: PropTypes.arrayOf(PropTypes.shape({
+    date: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    humidity: PropTypes.number.isRequired,
+  })).isRequired,
+  selectedDay: PropTypes.number.isRequired,
+  setSelectedDay: PropTypes.func.isRequired,
 };
 
 const Container = styled.div`
