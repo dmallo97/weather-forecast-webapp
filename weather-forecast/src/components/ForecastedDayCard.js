@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { WiCloudy } from 'weather-icons-react';
 import moment from 'moment';
+import renderWeatherIcon from '../utils/WeatherUtilities';
 
 const ForecastedDayCard = ({
   date,
   humidity,
+  weatherDescription,
   selected,
   index,
   setSelectedDay,
@@ -15,10 +16,11 @@ const ForecastedDayCard = ({
   if (date !== 'Today') {
     formattedDate = moment(date * 1000);
   }
+  console.log(weatherDescription);
   return (
     <Container active={selected} onClick={() => setSelectedDay(index)}>
       <strong>{date === 'Today' ? date : `${formattedDate.format('ddd')} ${formattedDate.toDate().getDate()}`}</strong>
-      <WiCloudy size={50} color="#fff" />
+      {renderWeatherIcon(weatherDescription, 50, '#fff')}
       Humidity
       {humidity}
       %
@@ -30,6 +32,7 @@ ForecastedDayCard.propTypes = {
   date: PropTypes.number.isRequired,
   humidity: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
+  weatherDescription: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
   setSelectedDay: PropTypes.func.isRequired,
 };

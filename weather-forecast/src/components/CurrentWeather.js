@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { WiFahrenheit } from 'weather-icons-react';
 import moment from 'moment';
+import renderWeatherIcon from '../utils/WeatherUtilities';
 
 const CurrentWeather = ({ currentWeather }) => {
   const date = moment(currentWeather.time * 1000);
@@ -11,11 +12,12 @@ const CurrentWeather = ({ currentWeather }) => {
       <CurrentTimeLabel>{`${date.format('dddd')}, ${date.format('MMMM Do YYYY, h:mm:ss a')}`}</CurrentTimeLabel>
       <PrimaryInformationContainer>
         <WeatherIconBox>
-          {/* <WiCloudy size={290} color='#000' /> */}
-          <img
+          {renderWeatherIcon(currentWeather.description, 290, '#000')}
+          {/* <weatherIcon size={290} color="#000" /> */}
+          {/* {<img
             src={`http://openweathermap.org/img/w/${currentWeather.icon}.png`}
             alt={currentWeather.description}
-          />
+          />} */}
         </WeatherIconBox>
         <TemperatureInformationContainer>
           <TemperatureLabel>
@@ -24,7 +26,7 @@ const CurrentWeather = ({ currentWeather }) => {
           <WiFahrenheit size={80} color="#000" />
         </TemperatureInformationContainer>
       </PrimaryInformationContainer>
-      <DescriptionLabel>{currentWeather.description}</DescriptionLabel>
+      <DescriptionLabel>{currentWeather.mainDescription}</DescriptionLabel>
       <SecondaryInformationContainer>
         <HumidityInformationBox>
           Humidity
@@ -48,6 +50,7 @@ const CurrentWeather = ({ currentWeather }) => {
 CurrentWeather.propTypes = {
   currentWeather: PropTypes.shape({
     description: PropTypes.string.isRequired,
+    mainDescription: PropTypes.string.isRequired,
     humidity: PropTypes.number.isRequired,
     icon: PropTypes.string.isRequired,
     temperature: PropTypes.number.isRequired,

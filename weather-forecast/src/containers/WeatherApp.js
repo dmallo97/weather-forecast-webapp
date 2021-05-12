@@ -15,6 +15,7 @@ const WeatherApp = () => {
   const [currentWeather, setCurrentWeather] = useState({
     time: '-',
     description: '-',
+    mainDescription: '-',
     temperature: '-',
     humidity: '-',
     windSpeed: '-',
@@ -40,6 +41,7 @@ const WeatherApp = () => {
       time: weatherData.dt,
       temperature: weatherData.main.temp,
       description: weatherData.weather[0].description,
+      mainDescription: weatherData.weather[0].main,
       icon: weatherData.weather[0].icon,
       humidity: weatherData.main.humidity,
       windSpeed: weatherData.wind.speed,
@@ -73,7 +75,7 @@ const WeatherApp = () => {
       } else {
         forecastedDaysCopy[i].date = dailyForecastData.daily[i].dt;
       }
-      forecastedDaysCopy[i].description = dailyForecastData.daily[i].weather[0].main;
+      forecastedDaysCopy[i].description = dailyForecastData.daily[i].weather[0].description;
       forecastedDaysCopy[i].humidity = dailyForecastData.daily[i].humidity;
     }
     setForecastedDays(forecastedDaysCopy);
