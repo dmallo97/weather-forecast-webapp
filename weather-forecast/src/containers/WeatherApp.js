@@ -4,9 +4,12 @@ import styled from 'styled-components';
 import CurrentWeather from '../components/CurrentWeather';
 import Forecast from '../components/Forecast';
 import {
-  getCurrentWeather,
-  getForecastedTemperatures,
-  getForecastedDailyWeather,
+  getCurrentWeatherByCity,
+  getCurrentWeatherByCoords,
+  getForecastedTemperaturesByCity,
+  getForecastedTemperaturesByCoords,
+  getForecastedDailyWeatherByCity,
+  getForecastedDailyWeatherByCoords,
 } from '../services/WeatherService';
 
 const WeatherApp = () => {
@@ -33,9 +36,9 @@ const WeatherApp = () => {
   async function fetchCurrentWeather(coords = undefined) {
     let weatherData;
     if (coords) {
-      weatherData = await getCurrentWeather(undefined, coords);
+      weatherData = await getCurrentWeatherByCoords(coords);
     } else {
-      weatherData = await getCurrentWeather(city);
+      weatherData = await getCurrentWeatherByCity(city);
     }
     setCurrentWeather({
       time: weatherData.dt,
@@ -52,11 +55,11 @@ const WeatherApp = () => {
     let temperatureData;
     let dailyForecastData;
     if (coords) {
-      temperatureData = await getForecastedTemperatures(undefined, coords);
-      dailyForecastData = await getForecastedDailyWeather(undefined, coords);
+      temperatureData = await getForecastedTemperaturesByCoords(coords);
+      dailyForecastData = await getForecastedDailyWeatherByCoords(coords);
     } else {
-      temperatureData = await getForecastedTemperatures(city);
-      dailyForecastData = await getForecastedDailyWeather(city);
+      temperatureData = await getForecastedTemperaturesByCity(city);
+      dailyForecastData = await getForecastedDailyWeatherByCity(city);
     }
     const forecastedTempsDataCopy = [...forecastedTemperatures];
     let temperatureIncomingDataIndex = 0;
