@@ -20,9 +20,11 @@ const ForecastedDayCard = ({
     <Container active={selected} onClick={() => setSelectedDay(index)}>
       <strong>{date === 'Today' ? date : `${formattedDate.format('ddd')} ${formattedDate.toDate().getDate()}`}</strong>
       {renderWeatherIcon(weatherDescription, 50, '#fff')}
-      Humidity
-      {humidity}
-      %
+      <div>Humidity</div>
+      <div>
+        {humidity}
+        <span>%</span>
+      </div>
     </Container>
   );
 };
