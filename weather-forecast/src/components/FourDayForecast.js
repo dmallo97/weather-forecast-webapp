@@ -1,6 +1,8 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
 import ForecastedDayCard from './ForecastedDayCard';
 
 const FourDayForecast = ({ forecast, setSelectedDay, selectedDay }) => {
@@ -24,22 +26,24 @@ const FourDayForecast = ({ forecast, setSelectedDay, selectedDay }) => {
 };
 
 FourDayForecast.propTypes = {
-  forecast: PropTypes.arrayOf(PropTypes.shape({
-    date: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
-    humidity: PropTypes.number.isRequired,
-  })).isRequired,
+  forecast: PropTypes.arrayOf(
+    PropTypes.shape({
+      date: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
+      humidity: PropTypes.number.isRequired,
+    })
+  ).isRequired,
   selectedDay: PropTypes.number.isRequired,
   setSelectedDay: PropTypes.func.isRequired,
 };
 
 const Container = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    height: 100%;
-    padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+  padding: 15px;
 `;
 
 export default FourDayForecast;

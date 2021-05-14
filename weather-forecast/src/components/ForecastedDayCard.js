@@ -1,7 +1,9 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import styled, { css } from 'styled-components';
+
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import styled, { css } from 'styled-components';
+
 import renderWeatherIcon from '../utils/WeatherUtilities';
 
 const ForecastedDayCard = ({
@@ -18,7 +20,13 @@ const ForecastedDayCard = ({
   }
   return (
     <Container active={selected} onClick={() => setSelectedDay(index)}>
-      <strong>{date === 'Today' ? date : `${formattedDate.format('ddd')} ${formattedDate.toDate().getDate()}`}</strong>
+      <strong>
+        {date === 'Today'
+          ? date
+          : `${formattedDate.format('ddd')} ${formattedDate
+              .toDate()
+              .getDate()}`}
+      </strong>
       {renderWeatherIcon(weatherDescription, 50, '#fff')}
       <div>Humidity</div>
       <div>
@@ -39,8 +47,9 @@ ForecastedDayCard.propTypes = {
 };
 
 const Container = styled.div`
-  ${(props) => props.active
-    && css`
+  ${(props) =>
+    props.active &&
+    css`
       background-color: #5596f6;
       color: white;
     `}

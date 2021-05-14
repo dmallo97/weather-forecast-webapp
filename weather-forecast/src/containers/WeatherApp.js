@@ -1,6 +1,9 @@
 import '../styles/WeatherApp.css';
 import React, { useState, useEffect } from 'react';
+
 import styled from 'styled-components';
+import { debounce } from 'throttle-debounce';
+
 import CurrentWeather from '../components/CurrentWeather';
 import Forecast from '../components/Forecast';
 import {
@@ -14,7 +17,6 @@ import {
 
 const WeatherApp = () => {
   const [city, setCity] = useState('London');
-  let cityInput = '';
   const [currentWeather, setCurrentWeather] = useState({
     time: '-',
     description: '-',
@@ -27,11 +29,35 @@ const WeatherApp = () => {
   const dailyForecastStructure = new Array(4).fill(null).map(() => ({
     date: '-',
     description: '-',
+    mainDescription: '-',
     humidity: '-',
   }));
   const [forecastedDays, setForecastedDays] = useState(dailyForecastStructure);
-  const tempForecastStructure = Array.from({ length: 4 }, () => Array.from({ length: 8 }, () => 0));
-  const [forecastedTemperatures, setForecastedTemperatures] = useState(tempForecastStructure);
+  /* const tempForecastStructure = () => {
+    const structure = new Array(4);
+    for (let i = 0; i < structure.length; i += 1) {
+      structure[i] = Array.from({ length: 8 }, () => ({
+        temperature: -1,
+        timestamp: '-',
+      }));
+    }
+    structure.map((slot, index) => {
+      slot[index] = Array.from({ length: 8 }, () => ({
+        temperature: -1,
+        timestamp: '-',
+      }));
+      return slot[index];
+    }); 
+    return structure;
+  }; */
+  const [forecastedTemperatures, setForecastedTemperatures] = useState(
+    new Array(4).fill(
+      Array.from({ length: 8 }, () => ({
+        temperature: -1,
+        timestamp: '-',
+      }))
+    )
+  );
 
   async function fetchCurrentWeather(coords = undefined) {
     let weatherData;
@@ -61,12 +87,17 @@ const WeatherApp = () => {
       temperatureData = await getForecastedTemperaturesByCity(city);
       dailyForecastData = await getForecastedDailyWeatherByCity(city);
     }
+    console.log(forecastedTemperatures);
     const forecastedTempsDataCopy = [...forecastedTemperatures];
     let temperatureIncomingDataIndex = 0;
     for (let i = 0; i < forecastedTempsDataCopy.length; i += 1) {
       for (let j = 0; j < forecastedTempsDataCopy[0].length; j += 1) {
-        const reading = temperatureData.list[temperatureIncomingDataIndex].main.temp;
-        forecastedTempsDataCopy[i][j] = Math.ceil(reading);
+        const reading =
+          temperatureData.list[temperatureIncomingDataIndex].main.temp;
+        const readingTimestamp =
+          temperatureData.list[temperatureIncomingDataIndex].dt_txt;
+        forecastedTempsDataCopy[i][j].temperature = Math.ceil(reading);
+        forecastedTempsDataCopy[i][j].timestamp = readingTimestamp;
         temperatureIncomingDataIndex += 1;
       }
     }
@@ -78,7 +109,10 @@ const WeatherApp = () => {
       } else {
         forecastedDaysCopy[i].date = dailyForecastData.daily[i].dt;
       }
-      forecastedDaysCopy[i].description = dailyForecastData.daily[i].weather[0].description;
+      forecastedDaysCopy[i].description =
+        dailyForecastData.daily[i].weather[0].description;
+      forecastedDaysCopy[i].mainDescription =
+        dailyForecastData.daily[i].weather[0].main;
       forecastedDaysCopy[i].humidity = dailyForecastData.daily[i].humidity;
     }
     setForecastedDays(forecastedDaysCopy);
@@ -99,17 +133,23 @@ const WeatherApp = () => {
     }
     navigator.geolocation.getCurrentPosition(
       fetchWeatherForCurrentLocation,
-      errorWhileFetchingWeatherForCurrentLocation,
+      errorWhileFetchingWeatherForCurrentLocation
     );
   }
 
   function handleClickSearch() {
-    if (cityInput.length < 1) return;
-    setCity(cityInput);
+    // if (cityInput.length < 1) {
+    //   return;
+    // }
+    // setCity(cityInput);
   }
 
+  const debounceSetCity = debounce(2000, (input) => {
+    setCity(input);
+  });
+
   function handleCityInputChange(event) {
-    cityInput = event.target.value;
+    debounceSetCity(event.target.value);
   }
 
   useEffect(() => {

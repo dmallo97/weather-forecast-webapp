@@ -1,8 +1,10 @@
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import TemperatureChart from './TemperatureChart';
+
 import FourDayForecast from './FourDayForecast';
+import TemperatureChart from './TemperatureChart';
 
 const Forecast = ({ forecastedDays, forecastedTemperatures }) => {
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
@@ -27,11 +29,13 @@ const Forecast = ({ forecastedDays, forecastedTemperatures }) => {
 };
 
 Forecast.propTypes = {
-  forecastedDays: PropTypes.arrayOf(PropTypes.shape({
-    date: '-',
-    description: '-',
-    humidity: '-',
-  })).isRequired,
+  forecastedDays: PropTypes.arrayOf(
+    PropTypes.shape({
+      date: '-',
+      description: '-',
+      humidity: '-',
+    })
+  ).isRequired,
   forecastedTemperatures: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))
     .isRequired,
 };

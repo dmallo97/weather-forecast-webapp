@@ -1,23 +1,27 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import moment from 'moment';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { WiFahrenheit } from 'weather-icons-react';
-import moment from 'moment';
+
 import renderWeatherIcon from '../utils/WeatherUtilities';
 
 const CurrentWeather = ({ currentWeather }) => {
   const date = moment(currentWeather.time * 1000);
   return (
     <Container>
-      <CurrentTimeLabel>{`${date.format('dddd')}, ${date.format('MMMM Do YYYY, h:mm:ss a')}`}</CurrentTimeLabel>
+      <CurrentTimeLabel>{`${date.format('dddd')}, ${date.format(
+        'MMMM Do YYYY, h:mm:ss a'
+      )}`}</CurrentTimeLabel>
       <PrimaryInformationContainer>
         <WeatherIconBox>
-          {renderWeatherIcon(currentWeather.description, 290, '#000')}
-          {/* <weatherIcon size={290} color="#000" /> */}
-          {/* {<img
-            src={`http://openweathermap.org/img/w/${currentWeather.icon}.png`}
-            alt={currentWeather.description}
-          />} */}
+          {renderWeatherIcon(
+            currentWeather.mainDescription,
+            currentWeather.description,
+            290,
+            '#000'
+          )}
         </WeatherIconBox>
         <TemperatureInformationContainer>
           <TemperatureLabel className="emphasized-text">
@@ -31,8 +35,7 @@ const CurrentWeather = ({ currentWeather }) => {
         <HumidityInformationBox>
           Humidity
           <strong className="emphasized-text">
-            {currentWeather.humidity}
-            %
+            {currentWeather.humidity}%
           </strong>
         </HumidityInformationBox>
         <WindInformationBox>
