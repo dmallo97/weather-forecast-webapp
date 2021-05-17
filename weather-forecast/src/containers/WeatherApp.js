@@ -52,7 +52,7 @@ const WeatherApp = () => {
   }; */
   const [forecastedTemperatures, setForecastedTemperatures] = useState(
     new Array(4).fill(
-      Array.from({ length: 8 }, () => ({
+      new Array(8).fill(null).map(() => ({
         temperature: -1,
         timestamp: '-',
       }))
