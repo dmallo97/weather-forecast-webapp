@@ -33,23 +33,6 @@ const WeatherApp = () => {
     humidity: '-',
   }));
   const [forecastedDays, setForecastedDays] = useState(dailyForecastStructure);
-  /* const tempForecastStructure = () => {
-    const structure = new Array(4);
-    for (let i = 0; i < structure.length; i += 1) {
-      structure[i] = Array.from({ length: 8 }, () => ({
-        temperature: -1,
-        timestamp: '-',
-      }));
-    }
-    structure.map((slot, index) => {
-      slot[index] = Array.from({ length: 8 }, () => ({
-        temperature: -1,
-        timestamp: '-',
-      }));
-      return slot[index];
-    }); 
-    return structure;
-  }; */
   const [forecastedTemperatures, setForecastedTemperatures] = useState(
     new Array(4).fill(
       new Array(8).fill(null).map(() => ({
@@ -87,7 +70,6 @@ const WeatherApp = () => {
       temperatureData = await getForecastedTemperaturesByCity(city);
       dailyForecastData = await getForecastedDailyWeatherByCity(city);
     }
-    console.log(forecastedTemperatures);
     const forecastedTempsDataCopy = [...forecastedTemperatures];
     let temperatureIncomingDataIndex = 0;
     for (let i = 0; i < forecastedTempsDataCopy.length; i += 1) {
