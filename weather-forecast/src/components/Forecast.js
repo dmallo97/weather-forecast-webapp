@@ -31,13 +31,20 @@ const Forecast = ({ forecastedDays, forecastedTemperatures }) => {
 Forecast.propTypes = {
   forecastedDays: PropTypes.arrayOf(
     PropTypes.shape({
-      date: '-',
-      description: '-',
-      humidity: '-',
+      date: PropTypes.number.isRequired,
+      mainDescription: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      humidity: PropTypes.number.isRequired,
     })
   ).isRequired,
-  forecastedTemperatures: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))
-    .isRequired,
+  forecastedTemperatures: PropTypes.arrayOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        temperature: PropTypes.number.isRequired,
+        timestamp: PropTypes.string.isRequired,
+      })
+    )
+  ).isRequired,
 };
 
 const ForecastContainer = styled.div`

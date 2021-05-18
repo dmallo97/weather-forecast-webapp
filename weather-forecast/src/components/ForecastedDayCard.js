@@ -10,6 +10,7 @@ const ForecastedDayCard = ({
   date,
   humidity,
   weatherDescription,
+  mainDescription,
   selected,
   index,
   setSelectedDay,
@@ -27,7 +28,9 @@ const ForecastedDayCard = ({
               .toDate()
               .getDate()}`}
       </strong>
-      {renderWeatherIcon(weatherDescription, 50, '#fff')}
+      {selected
+        ? renderWeatherIcon(mainDescription, weatherDescription, 50, '#fff')
+        : renderWeatherIcon(mainDescription, weatherDescription, 50, '#666666')}
       <div>Humidity</div>
       <div>
         {humidity}
@@ -42,6 +45,7 @@ ForecastedDayCard.propTypes = {
   humidity: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
   weatherDescription: PropTypes.string.isRequired,
+  mainDescription: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
   setSelectedDay: PropTypes.func.isRequired,
 };

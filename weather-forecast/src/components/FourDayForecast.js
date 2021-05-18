@@ -15,6 +15,7 @@ const FourDayForecast = ({ forecast, setSelectedDay, selectedDay }) => {
         <ForecastedDayCard
           date={forecastedDay.date}
           weatherDescription={forecastedDay.description}
+          mainDescription={forecastedDay.mainDescription}
           humidity={forecastedDay.humidity}
           selected={days[i]}
           index={i}
@@ -30,6 +31,7 @@ FourDayForecast.propTypes = {
     PropTypes.shape({
       date: PropTypes.number.isRequired,
       description: PropTypes.string.isRequired,
+      mainDescription: PropTypes.string.isRequired,
       humidity: PropTypes.number.isRequired,
     })
   ).isRequired,

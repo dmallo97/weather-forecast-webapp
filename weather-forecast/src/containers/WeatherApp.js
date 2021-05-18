@@ -1,6 +1,7 @@
 import '../styles/WeatherApp.css';
 import React, { useState, useEffect } from 'react';
 
+import moment from 'moment';
 import styled from 'styled-components';
 import { debounce } from 'throttle-debounce';
 
@@ -14,6 +15,13 @@ import {
   getForecastedDailyWeatherByCity,
   getForecastedDailyWeatherByCoords,
 } from '../services/WeatherService';
+
+/* const test = new Array(4).fill(
+  new Array(8).fill(null).map(() => ({
+    temperature: -1,
+    timestamp: '-',
+  }))
+); */
 
 const WeatherApp = () => {
   const [city, setCity] = useState('London');
@@ -33,14 +41,15 @@ const WeatherApp = () => {
     humidity: '-',
   }));
   const [forecastedDays, setForecastedDays] = useState(dailyForecastStructure);
-  const [forecastedTemperatures, setForecastedTemperatures] = useState(
-    new Array(4).fill(
+  const [forecastedTemperatures, setForecastedTemperatures] = useState(() => {
+    const result = new Array(4).fill(0).map(() =>
       new Array(8).fill(null).map(() => ({
         temperature: -1,
         timestamp: '-',
       }))
-    )
-  );
+    );
+    return result;
+  });
 
   async function fetchCurrentWeather(coords = undefined) {
     let weatherData;
@@ -70,20 +79,29 @@ const WeatherApp = () => {
       temperatureData = await getForecastedTemperaturesByCity(city);
       dailyForecastData = await getForecastedDailyWeatherByCity(city);
     }
-    const forecastedTempsDataCopy = [...forecastedTemperatures];
+    const forecastedTempsDataStructure = new Array(4).fill(0).map(() =>
+      new Array(8).fill(null).map(() => ({
+        temperature: -1,
+        timestamp: '-',
+      }))
+    );
     let temperatureIncomingDataIndex = 0;
-    for (let i = 0; i < forecastedTempsDataCopy.length; i += 1) {
-      for (let j = 0; j < forecastedTempsDataCopy[0].length; j += 1) {
+    for (let i = 0; i < forecastedTempsDataStructure.length; i += 1) {
+      for (let j = 0; j < forecastedTempsDataStructure[0].length; j += 1) {
         const reading =
           temperatureData.list[temperatureIncomingDataIndex].main.temp;
         const readingTimestamp =
-          temperatureData.list[temperatureIncomingDataIndex].dt_txt;
-        forecastedTempsDataCopy[i][j].temperature = Math.ceil(reading);
-        forecastedTempsDataCopy[i][j].timestamp = readingTimestamp;
+          temperatureData.list[temperatureIncomingDataIndex].dt;
+        forecastedTempsDataStructure[i][j].temperature = Math.ceil(reading);
+        forecastedTempsDataStructure[i][j].timestamp = moment(
+          readingTimestamp * 1000
+        )
+          .toDate()
+          .getHours();
         temperatureIncomingDataIndex += 1;
       }
     }
-    setForecastedTemperatures(forecastedTempsDataCopy);
+    setForecastedTemperatures(forecastedTempsDataStructure);
     const forecastedDaysCopy = [...forecastedDays];
     for (let i = 0; i < forecastedDaysCopy.length; i += 1) {
       if (i === 0) {
@@ -119,13 +137,6 @@ const WeatherApp = () => {
     );
   }
 
-  function handleClickSearch() {
-    // if (cityInput.length < 1) {
-    //   return;
-    // }
-    // setCity(cityInput);
-  }
-
   const debounceSetCity = debounce(2000, (input) => {
     setCity(input);
   });
@@ -149,7 +160,6 @@ const WeatherApp = () => {
           placeholder="London"
           onChange={(e) => handleCityInputChange(e)}
         />
-        <SearchButton onClick={handleClickSearch}>Search</SearchButton>
         <SearchButton onClick={handleGetLocationBtnClick}>
           Get my location and search
         </SearchButton>
