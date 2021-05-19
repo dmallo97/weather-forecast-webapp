@@ -18,8 +18,6 @@ const TemperatureChart = ({ forecast, selectedDayIndex }) => {
   const [data, setData] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
 
   useEffect(() => {
-    setData([]);
-    setLabels([]);
     const newTempData = [];
     const newLabels = [];
     forecast[selectedDayIndex].map((reading) => {
